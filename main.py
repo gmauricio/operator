@@ -24,7 +24,7 @@ def main():
 
     #application.pc.connect()
 
-    application.listen(os.environ.get("PORT"), 80)
+    application.listen(os.environ.get("PORT", 8888))
 
     io_loop.start()
 
