@@ -1,13 +1,12 @@
 import tornado.ioloop
 import tornado.web
-from tornado.web import Application, RequestHandler
-from handlers import WebSocketHandler
+#from handlers import WebSocketHandler
 
-application = tornado.web.Application([
-    (r'/ws', WebSocketHandler),
-])
+#application = tornado.web.Application([
+#    (r'/ws', WebSocketHandler),
+#])
 
-def main():
+"""def main():
     pika.log.setup(color=True)
     io_loop = tornado.ioloop.IOLoop.instance()
 
@@ -21,7 +20,7 @@ def main():
 
     application.listen(8888)
 
-    io_loop.start()
+    io_loop.start()"""
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
