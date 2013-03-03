@@ -1,36 +1,32 @@
+import os
 import tornado.ioloop
 import tornado.web
-#from handlers import WebSocketHandler
+from handlers import WebSocketHandler
 
-#application = tornado.web.Application([
-#    (r'/ws', WebSocketHandler),
-#])
 
-"""def main():
-    pika.log.setup(color=True)
+class TestHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        self.write("Hello!")
+
+application = tornado.web.Application([
+    (r'/ws', WebSocketHandler),
+    (r'/', TestHandler)
+])
+
+def main():
+    #pika.log.setup(color=True)
     io_loop = tornado.ioloop.IOLoop.instance()
 
     # PikaClient is our rabbitmq consumer
+    #pc = client.PikaClient(io_loop)
 
-    pc = client.PikaClient(io_loop)
+    #application.pc = pc
 
-    application.pc = pc
+    #application.pc.connect()
 
-    application.pc.connect()
+    application.listen(os.environ.get("PORT"), 80)
 
-    application.listen(8888)
-
-    io_loop.start()"""
-
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write("Hello, world")
-
-application = tornado.web.Application([
-    (r"/", MainHandler),
-])
-
+    io_loop.start()
 
 if __name__ == "__main__":
-    application.listen(80)
-    tornado.ioloop.IOLoop.instance().start()
+    main()
