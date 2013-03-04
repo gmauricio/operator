@@ -2,6 +2,7 @@ import os
 import tornado.ioloop
 import tornado.web
 from handlers import WebSocketHandler
+from subscription import SubscriptionManager
 
 
 class EchoHandler(tornado.web.RequestHandler):
@@ -9,7 +10,7 @@ class EchoHandler(tornado.web.RequestHandler):
         self.write("Echo")
 
 application = tornado.web.Application([
-    (r'/ws', WebSocketHandler),
+    (r'/ws', WebSocketHandler, dict(subscription_manager = SubscriptionManager)),
     (r'/', EchoHandler)
 ])
 
