@@ -4,13 +4,13 @@ import tornado.web
 from handlers import WebSocketHandler
 
 
-class TestHandler(tornado.web.RequestHandler):
+class EchoHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
-        self.write("Hello!")
+        self.write("Echo")
 
 application = tornado.web.Application([
     (r'/ws', WebSocketHandler),
-    (r'/', TestHandler)
+    (r'/', EchoHandler)
 ])
 
 def main():

@@ -7,7 +7,7 @@ class WebSocketHandler(BaseWebSocketHandler):
         #pika.log.info("WebSocket opened")
 
     def on_message(self, message):
-        self.write("hola, "+message)
+        pass
 
     def on_close(self):
         pass
