@@ -7,12 +7,12 @@ class WebSocketHandler(BaseWebSocketHandler):
 
     def open(self, *args, **kwargs):
         id = self.get_argument("id")
+        print "client connected: "+id
         self.subscription_manager.subscribe(id, self)
-        #pika.log.info("WebSocket opened")
 
     def on_message(self, message):
-        pass
+        for subscriber in self.subscription_manager.get_all_subscribers():
+            subscriber.write_message(message)
 
     def on_close(self):
         pass
-        #pika.log.info("WebSocket closed")
