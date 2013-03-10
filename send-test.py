@@ -7,6 +7,6 @@ channel.queue_declare(queue='test')
 
 channel.basic_publish(exchange='',
                       routing_key='test',
-                      body='Lo estan mirando, ojo!')
+                      body='mensaje!')
 print " [x] Sent 'Hello World!'"
 connection.close()

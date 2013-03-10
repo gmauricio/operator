@@ -1,3 +1,4 @@
+pika
 gunicorn
 pycurl
 simplejson

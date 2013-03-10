@@ -1,7 +1,8 @@
 import pika
 from pika.adapters import TornadoConnection
+from consumers import ConsumerManager
 
-class PikaClient(object):
+class PikaClient(ConsumerManager):
     def __init__(self, io_loop, subscription_manager):
         print('PikaClient: __init__')
         self.io_loop = io_loop
@@ -33,17 +34,11 @@ class PikaClient(object):
     def on_channel_open(self, channel):
         print('PikaClient: Channel open, Declaring exchange')
         self.channel = channel
-        self.channel.queue_declare(self.on_queue_declared, queue="test",)
-        # declare exchanges, which in turn, declare
-        # queues, and bind exchange to queues
 
-    def on_queue_declared(self, frame):
-        self.channel.basic_consume(self.on_message, queue="test")
+    def add_consumer(self, consumer):
+        self.consumer.channel(self)
 
     def on_closed(self, connection):
         print('PikaClient: rabbit connection closed')
         self.io_loop.stop()
 
-    def on_message(self, channel, method, header, body):
-        print('PikaClient: message received: %s' % body)
-        self.subscription_manager.publish(body)

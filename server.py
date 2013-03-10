@@ -21,7 +21,6 @@ def main():
 
     io_loop = tornado.ioloop.IOLoop.instance()
 
-    # PikaClient is our rabbitmq consumer
     pc = client.PikaClient(io_loop, subscription_manager)
 
     pc.connect()
