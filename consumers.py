@@ -30,11 +30,14 @@ class Consumer():
         self.channel.queue_declare(self._on_queue_declared)
 
     def _on_queue_declared(self, result):
-        print result.method.queue
-        self.channel.queue_bind(exchange='notifications',
-                                queue=result.method.queue,
-                                routing_key='')
-        self.channel.basic_consume(self.on_message, queue=result.method.queue)
+        self.queue = result.method.queue
+        self.channel.queue_bind(callback=self._on_queue_bound,
+                                exchange='notifications',
+                                queue=self.queue,
+                                routing_key=self.id)
+
+    def _on_queue_bound(self, result):
+        self.channel.basic_consume(self.on_message, queue=self.queue)
 
     def on_message(self, channel, method, header, body):
         print('PikaClient: message received: %s' % body)
