@@ -2,6 +2,7 @@ class ConsumerManager():
 
     def __init__(self):
         self.consumers = []
+        self.exchanges = []
 
     def add_consumer(self, consumer):
         self.consumers.append(consumer)
@@ -10,6 +11,8 @@ class ConsumerManager():
     def on_added_consumer(self, consumer):
         pass
 
+    def add_exchange(self, exchange):
+        self.exchanges.append(exchange)
 
 class Consumer():
 
@@ -22,11 +25,6 @@ class Consumer():
 
     def channel(self, channel):
         self.channel = channel
-        self.channel.exchange_declare(callback=self._on_exchange_declared,
-                                      exchange='notifications',
-                                      exchange_type='direct')
-
-    def _on_exchange_declared(self, result):
         self.channel.queue_declare(self._on_queue_declared)
 
     def _on_queue_declared(self, result):

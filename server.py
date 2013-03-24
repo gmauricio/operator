@@ -14,6 +14,8 @@ def main():
 
     pc = client.PikaClient(io_loop)
 
+    pc.add_exchange(client.Exchange('notifications', 'direct'))
+
     pc.connect()
 
     application = tornado.web.Application([
