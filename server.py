@@ -1,8 +1,8 @@
 import os
 import tornado.ioloop
 import tornado.web
+from consumers import PikaClient, Exchange
 from handlers import WebSocketHandler
-import client
 
 class EchoHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
@@ -12,9 +12,9 @@ def main():
 
     io_loop = tornado.ioloop.IOLoop.instance()
 
-    pc = client.PikaClient(io_loop)
+    pc = PikaClient(io_loop)
 
-    pc.add_exchange(client.Exchange('notifications', 'direct'))
+    pc.add_exchange(Exchange('notifications', 'direct'))
 
     pc.connect()
 
