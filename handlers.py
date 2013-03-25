@@ -9,7 +9,8 @@ class WebSocketHandler(BaseWebSocketHandler):
     def open(self, *args, **kwargs):
         id = self.get_argument("id")
         consumer_bindings = [
-            Exchange('notifications', 'direct')
+            Exchange('notifications', 'direct'),
+            Exchange('publications', 'fanout')
         ]
         self.consumer_manager.add_consumer(Consumer(id, self, consumer_bindings))
 

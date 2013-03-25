@@ -34,10 +34,12 @@ class Consumer():
 
 
     def bind_to(self, exchange):
+        routing_key = None
+        if exchange.type is 'direct': routing_key = self.id
         self.channel.queue_bind(callback=self._on_queue_bound,
                                     exchange=exchange.name,
                                     queue=self.queue,
-                                    routing_key=self.id)
+                                    routing_key=routing_key)
 
     def _on_queue_declared(self, result):
         self.queue = result.method.queue

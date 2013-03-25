@@ -15,6 +15,7 @@ def main():
     pc = PikaClient(io_loop)
 
     pc.add_exchange(Exchange('notifications', 'direct'))
+    pc.add_exchange(Exchange('publications', 'fanout'))
 
     pc.connect()
 
