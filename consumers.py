@@ -67,7 +67,8 @@ class PikaClient(ConsumerManager):
 
     def connect(self, connection_url):
         url = urlparse.urlparse(connection_url)
-        param = pika.ConnectionParameters(host=url.hostname, virtual_host=url.path[1:])
+        param = pika.ConnectionParameters(host=url.hostname, virtual_host=url.path[1:],
+                                          credentials=pika.PlainCredentials(url.username, url.password))
         self.connection = TornadoConnection(param,
                                             on_open_callback=self.on_connected)
         self.connection.add_on_close_callback(self.on_closed)
