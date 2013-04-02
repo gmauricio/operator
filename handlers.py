@@ -1,5 +1,5 @@
 from tornado.websocket import WebSocketHandler as BaseWebSocketHandler
-from consumers import Consumer
+from consumers import Consumer, Exchange
 
 class WebSocketHandler(BaseWebSocketHandler):
 
@@ -8,8 +8,11 @@ class WebSocketHandler(BaseWebSocketHandler):
 
     def open(self, *args, **kwargs):
         id = self.get_argument("id")
-        print "client connected: "+id
-        self.consumer_manager.add_consumer(Consumer(id, self))
+        consumer_bindings = [
+            Exchange('notifications', 'direct'),
+            Exchange('publications', 'fanout')
+        ]
+        self.consumer_manager.add_consumer(Consumer(id, self, consumer_bindings))
 
     def on_message(self, message):
         pass
