@@ -9,7 +9,8 @@ class EchoHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         self.write("Echo")
 
-def main():
+
+if __name__ == "__main__":
 
     io_loop = tornado.ioloop.IOLoop.instance()
 
@@ -28,6 +29,3 @@ def main():
     application.listen(os.environ.get("PORT", 8888))
 
     io_loop.start()
-
-if __name__ == "__main__":
-    main()
