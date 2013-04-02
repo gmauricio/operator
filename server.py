@@ -10,22 +10,20 @@ class EchoHandler(tornado.web.RequestHandler):
         self.write("Echo")
 
 
-if __name__ == "__main__":
+io_loop = tornado.ioloop.IOLoop.instance()
 
-    io_loop = tornado.ioloop.IOLoop.instance()
+pc = PikaClient(io_loop)
 
-    pc = PikaClient(io_loop)
+pc.add_exchange(Exchange('notifications', 'direct'))
+pc.add_exchange(Exchange('publications', 'fanout'))
 
-    pc.add_exchange(Exchange('notifications', 'direct'))
-    pc.add_exchange(Exchange('publications', 'fanout'))
+pc.connect(config.CLOUDAMQP_URL)
 
-    pc.connect(config.CLOUDAMQP_URL)
+application = tornado.web.Application([
+    (r'/ws', WebSocketHandler, dict(consumer_manager = pc)),
+    (r'/', EchoHandler)
+])
 
-    application = tornado.web.Application([
-        (r'/ws', WebSocketHandler, dict(consumer_manager = pc)),
-        (r'/', EchoHandler)
-    ])
+application.listen(os.environ.get("PORT", 8888))
 
-    application.listen(os.environ.get("PORT", 8888))
-
-    io_loop.start()
+io_loop.start()
