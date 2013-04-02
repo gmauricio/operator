@@ -24,6 +24,6 @@ application = tornado.web.Application([
     (r'/', EchoHandler)
 ])
 
-application.listen(os.environ.get("PORT", 8888))
-
-io_loop.start()
+if __name__ == "__main__":
+    application.listen(os.environ.get("PORT", 8888))
+    io_loop.start()
