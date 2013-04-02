@@ -3,7 +3,7 @@ import tornado.ioloop
 import tornado.web
 from consumers import PikaClient, Exchange
 from handlers import WebSocketHandler
-import config
+import settings
 
 class EchoHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
@@ -17,7 +17,7 @@ pc = PikaClient(io_loop)
 pc.add_exchange(Exchange('notifications', 'direct'))
 pc.add_exchange(Exchange('publications', 'fanout'))
 
-pc.connect(config.CLOUDAMQP_URL)
+pc.connect(settings.CLOUDAMQP_URL)
 
 application = tornado.web.Application([
     (r'/ws', WebSocketHandler, dict(consumer_manager = pc)),
